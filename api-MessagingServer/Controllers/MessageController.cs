@@ -16,8 +16,8 @@ namespace api_MessagingServer.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
-        [HttpPost("send")]
-        public async Task Send([FromBody] Objects.External.MessageRequest message)
+        [HttpGet("send")]
+        public async Task Send()
         {
             try
             {
@@ -34,6 +34,8 @@ namespace api_MessagingServer.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+
             }
         }
         /*
@@ -45,10 +47,11 @@ namespace api_MessagingServer.Controllers
         */
         private async Task ProcessMessageRequest(WebSocket webSocket)
         {
-            var buffer = new byte[1024 * 4];
+
             WebSocketReceiveResult receiveResult = null;
             while (true)
             {
+                var buffer = new byte[1024 * 4];
                 receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 string textReceived = Encoding.ASCII.GetString(buffer);
                 if (receiveResult.CloseStatus.HasValue)

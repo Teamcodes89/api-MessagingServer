@@ -8,3 +8,11 @@ the message has to be a jason like this:
 {
     "PhoneNumber": "<number>"
 }
+
+
+For sending messages to server the URL is:
+ws://localhost:51234/api/message/send
+
+Body:
+
+{"Sender":"<phone number>","Receiver":"<receiver phone number>","Date":"dd/mm/yyyy","Time":"hh/mm/ss","Text":"<byte array of text>"}

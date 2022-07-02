@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +29,8 @@ namespace api_MessagingServer.Handlers
         {
             if(receiver.webSocket.State == WebSocketState.Open)
             {
-                await receiver.webSocket.SendAsync(new ArraySegment<byte>(messageRequest.Text, 0, messageRequest.Text.Count()),
+                string json = JsonConvert.SerializeObject(messageRequest);
+                await receiver.webSocket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(json), 0, json.Count()),
                 WebSocketMessageType.Text,
                 false,
                 CancellationToken.None);

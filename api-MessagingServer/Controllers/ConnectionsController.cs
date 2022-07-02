@@ -36,6 +36,8 @@ namespace api_MessagingServer.Controllers
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+
             }
         }
         private async Task ProcessConnectionRequest(WebSocket webSocket)

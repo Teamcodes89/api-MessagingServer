@@ -14,6 +14,7 @@ namespace api_MessagingServer.Controllers
         [HttpPost("status/online")]
         public IActionResult MarkStatusOnLine([FromBody] Objects.ClientStatus clientStatus)
         {
+            
             try
             {
 
