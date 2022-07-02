@@ -3,7 +3,7 @@ ws://localhost:51234/api/connections/connect
 
 then you have to send a message to inform the number this will be in RSA2 encryption algorithm but for now just being in plain text will be ok.
 
-the message has to be a jason like this:
+the message has to be a json like this:
 
 {
     "PhoneNumber": "<number>"
