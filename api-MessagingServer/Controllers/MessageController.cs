@@ -38,13 +38,6 @@ namespace api_MessagingServer.Controllers
 
             }
         }
-        /*
-        [HttpGet("get")]
-        public List<Message> Get([FromBody] Objects.Internal.Connection connection)
-        {
-            return Handlers.Message.GetMessages(connection);
-        }
-        */
         private async Task ProcessMessageRequest(WebSocket webSocket)
         {
 
@@ -61,27 +54,27 @@ namespace api_MessagingServer.Controllers
                 var messageRequest = JsonConvert.DeserializeObject<Objects.External.MessageRequest>(textReceived);
                 if (messageRequest == null)
                 {
-                    break;
+                    continue;
                 }
                 if (String.IsNullOrEmpty(messageRequest.Date))
                 {
-                    break;
+                    continue;
                 }
                 if (String.IsNullOrEmpty(messageRequest.Receiver))
                 {
-                    break;
+                    continue;
                 }
                 if (String.IsNullOrEmpty(messageRequest.Sender))
                 {
-                    break;
+                    continue;
                 }
                 if (Handlers.Message.IsTextValid(messageRequest.Text) == false)
                 {
-                    break;
+                    continue;
                 }
                 if (String.IsNullOrEmpty(messageRequest.Time))
                 {
-                    break;
+                    continue;
                 }
 
                 var senderConnectionObject = new Objects.Internal.Connection()
