@@ -23,6 +23,8 @@ namespace api_MessagingServer.Handlers
             };
             _ = Handlers.Connection.Add(connectionObject) == false ? Handlers.Connection.Update(connectionObject) : false;
 
+            SendPendingMessages(connectionObject);
+
         }
 
         public static bool Update(Objects.Internal.Connection connectionObject)
@@ -102,6 +104,20 @@ namespace api_MessagingServer.Handlers
         public static string GetClientIP(this Microsoft.AspNetCore.Mvc.ControllerBase httpContext)
         {
             return httpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
+
+        private static void SendPendingMessages(Objects.Internal.Connection receiverWebSocket)
+        {
+            var pendingMessages = Processes.PendingMessages.GetFromQueue(receiverWebSocket);
+            foreach (var pendingMessage in pendingMessages)
+            {
+                var senderWebSocket = Handlers.Connection.GetByPhone(pendingMessage.Sender);
+                if (Processes.PendingMessages.RemoveFromQueue(pendingMessage) == false)
+                {
+                    continue;
+                }
+                Message.Send(senderWebSocket, receiverWebSocket, pendingMessage).GetAwaiter().GetResult();
+            }
         }
     }
 }
